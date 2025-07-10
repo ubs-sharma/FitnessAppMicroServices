@@ -1,6 +1,7 @@
 package com.fitness.activityservice.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -9,12 +10,14 @@ import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserValidationService {
     private final WebClient userServiceWebClient;
 
     public boolean validateUser(String userId) {
 
+        log.info("Calling user validation APO for UserId: {}", userId);
         try {
             return userServiceWebClient.get()
                     .uri("/api/users/{userId}/validate", userId)
