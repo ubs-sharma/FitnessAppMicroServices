@@ -10,4 +10,5 @@ public class AiserviceApplication {
 		SpringApplication.run(AiserviceApplication.class, args);
 	}
 
+	//some comments
 }
