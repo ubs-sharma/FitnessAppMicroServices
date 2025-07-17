@@ -30,7 +30,7 @@ public class UserController {
 
 
     @GetMapping("/{userId}/validate")
-    public ResponseEntity<Boolean> validaeUser(@PathVariable String userId) {
+    public ResponseEntity<Boolean> validateUser(@PathVariable String userId) {
 
         return ResponseEntity.ok(userService.existByUserId(userId));
     }
