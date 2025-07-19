@@ -32,6 +32,7 @@ public class UserService {
     public Mono<UserResponse> registerUser(RegisterRequest registerRequest) {
 
         log.info("Calling user registration API for email : {}", registerRequest.getEmail());
+        log.info("Calling user registration API for getKeyCloakId : {}", registerRequest.getKeyCloakId());
 
         return userServiceWebClient.post().uri("/api/users/register")
                 .bodyValue(registerRequest)

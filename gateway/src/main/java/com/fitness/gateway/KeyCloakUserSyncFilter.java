@@ -22,15 +22,22 @@ public class KeyCloakUserSyncFilter implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        String userId = exchange.getRequest().getHeaders().getFirst("X-User-ID");
         String token = exchange.getRequest().getHeaders().getFirst("Authorization");
+        String userId = exchange.getRequest().getHeaders().getFirst("X-User-ID");
+
+        RegisterRequest registerRequest = getUserDetails(token);
+
+        if (userId == null) {
+            userId = registerRequest.getKeyCloakId();
+        }
 
         if (userId != null && token != null) {
+            String finalUserId = userId;
             return userService.validateUser(userId)
                     .flatMap(exist -> {
                         if (!exist) {
                             //Register User
-                            RegisterRequest registerRequest = getUserDetails(token);
+
                             if (registerRequest != null)
                                 return userService.registerUser(registerRequest)
                                         .then(Mono.empty());
@@ -43,7 +50,7 @@ public class KeyCloakUserSyncFilter implements WebFilter {
                     })
                     .then(Mono.defer(() -> {
                         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
-                                .header("X-User-ID", userId)
+                                .header("X-User-ID", finalUserId)
                                 .build();
                         return chain.filter(exchange.mutate().request(mutatedRequest).build());
                     }));
@@ -63,6 +70,8 @@ public class KeyCloakUserSyncFilter implements WebFilter {
             registerRequest.setFirstName(claimsSet.getStringClaim("given_name"));
             registerRequest.setLastName(claimsSet.getStringClaim("family_name"));
             registerRequest.setPassword("dummy@123123");
+
+            log.info(registerRequest.toString());
 
             return registerRequest;
         } catch (Exception e) {
