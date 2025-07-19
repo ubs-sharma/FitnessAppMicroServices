@@ -48,7 +48,7 @@ public class KeyCloakUserSyncFilter implements WebFilter {
                         return chain.filter(exchange.mutate().request(mutatedRequest).build());
                     }));
         }
-        return Mono.empty();
+        return chain.filter(exchange);
     }
 
     private RegisterRequest getUserDetails(String token) {
