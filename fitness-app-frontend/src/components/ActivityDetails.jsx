@@ -5,7 +5,7 @@ import { Box, Card, CardContent, Divider, Typography } from "@mui/material";
 
 const ActivityDetails = () => {
   const { id } = useParams();
-  const [activity, setActivity] = useState(null);
+  const [activity, setActivity] = useState({});
   const [recommendation, setRecommendation] = useState(null);
 
   useEffect(() => {
@@ -14,7 +14,16 @@ const ActivityDetails = () => {
         const response = await getActivityDetatils(id);
         console.log(response.data);
 
-        setActivity(response.data);
+        setActivity({
+          type: response.data.activityType,
+          duration: response.data.duration,
+          caloriesBurned: response.data.caloriesBurned,
+          createdAt: response.data.createdAt,
+          recommendation: response.data.recommendation,
+          improvements: response.data.improvements || [],
+          suggestions: response.data.suggestions || [],
+          safety: response.data.safety || [],
+        });
         console.log(activity);
         console.log(response.data.activityType);
         setRecommendation(response.data.recommendation);
