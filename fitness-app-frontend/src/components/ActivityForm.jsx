@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import { addActivity } from "../services/api";
 
-const ActivityForm = (onActivuityAdded) => {
+const ActivityForm = ({ onActivuityAdded }) => {
   const [activity, setActivity] = useState({
     type: "RUNNING",
     duration: 0,
