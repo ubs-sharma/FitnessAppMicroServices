@@ -12,8 +12,6 @@ const ActivityDetails = () => {
     const fetchActivityDetails = async () => {
       try {
         const response = await getActivityDetatils(id);
-        console.log(response.data);
-
         setActivity({
           type: response.data.activityType,
           duration: response.data.duration,
@@ -24,8 +22,7 @@ const ActivityDetails = () => {
           suggestions: response.data.suggestions || [],
           safety: response.data.safety || [],
         });
-        console.log(activity);
-        console.log(response.data.activityType);
+
         setRecommendation(response.data.recommendation);
       } catch (error) {
         console.error("Error fetching activity details:", error);
