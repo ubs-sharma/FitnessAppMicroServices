@@ -33,7 +33,7 @@ function App() {
         </Button>
       ) : (
         <div>
-          <pre>{JSON.stringify(tokenData)}</pre>
+          <pre>{JSON.stringify(tokenData, null, 2)}</pre>
         </div>
       )}
     </Router>
