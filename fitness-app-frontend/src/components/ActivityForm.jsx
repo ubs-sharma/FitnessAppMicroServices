@@ -8,6 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
+import { addActivity } from "../services/api";
 
 const ActivityForm = (onActivuityAdded) => {
   const [activity, setActivity] = useState({
@@ -16,8 +17,6 @@ const ActivityForm = (onActivuityAdded) => {
     caloriesBurned: 0,
     additionalMetrics: {},
   });
-
-  const [addActivity, setAddActivity] = useState();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
